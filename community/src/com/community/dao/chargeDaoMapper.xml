@@ -1,0 +1,130 @@
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.dao.chargeDaoMapper">
+
+	<insert id="savechargeInfo" parameterType="com.community.entity.charge">
+		insert into charge
+		(charge.houseid,
+		charge.month,
+		charge.water,
+		charge.electric
+		)
+		values(#{houseid},
+		#{month},
+		#{water},
+		#{electric})
+	</insert>
+
+
+
+
+
+	<update id="updatechargeInfo" parameterType="com.community.entity.charge">
+		update charge
+		<set>
+			<if test="houseid !=null and houseid!=''">
+				charge.houseid=#{houseid},
+			</if>
+			<if test="month !=null and month!=''">
+				charge.month=#{month},
+			</if>
+			<if test="water !=null and water!=''">
+				charge.water=#{water},
+			</if>
+			<if test="electric !=null and electric!=''">
+				charge.electric=#{electric},
+			</if>
+			<if test="status !=null and status!=''">
+				charge.status=#{status},
+			</if>
+			<if test="rname !=null and rname!=''">
+				charge.rname=#{rname},
+			</if>
+			<if test="cdate !=null and cdate!=''">
+				charge.cdate=#{cdate}
+			</if>
+
+		</set>
+		where charge.id=#{id}
+
+	</update>
+
+	<update id="updatechargeByhouseid" parameterType="com.community.entity.charge">
+		update charge
+		<set>
+			<if test="status !=null and status!=''">
+				charge.status=#{status},
+			</if>
+			<if test="rname !=null and rname!=''">
+				charge.rname=#{rname},
+			</if>
+			<if test="cdate !=null and cdate!=''">
+				charge.cdate=#{cdate}
+			</if>
+		</set>
+		where charge.houseid=#{houseid}
+
+	</update>
+
+
+
+	<select id="findchargeWithPage" resultMap="chargeMapper">
+		SELECT
+		charge.houseid,
+		charge.`month`,
+		charge.water,
+		charge.electric,
+		charge.`status`,
+		charge.rname,
+		charge.cdate,
+		charge.id
+		FROM
+		charge
+
+		<where>
+			<if test="status !=null and status!=''">
+				charge.status like '%${status}%'
+			</if>
+
+		</where>
+
+		limit #{page},#{rows}
+
+	</select>
+
+	<select id="getchargeCount" resultType="int">
+		select count(*) from
+		charge
+	</select>
+	<select id="findchargeById" resultType="com.community.entity.charge"
+		parameterType="int" resultMap="chargeMapper">
+		select * from charge where id=#{id}
+	</select>
+	
+	
+	<select id="findchargeByhouseid" resultType="com.community.entity.charge"
+		parameterType="String" resultMap="chargeMapper">
+		select * from charge where houseid=#{houseid}
+	</select>
+
+
+
+
+	<resultMap type="com.community.entity.charge" id="chargeMapper">
+
+		<id property="id" column="id" />
+		<result property="houseid" column="houseid" />
+		<result property="month" column="month" />
+		<result property="water" column="water" />
+		<result property="electric" column="electric" />
+		<result property="status" column="status" />
+		<result property="rname" column="rname" />
+		<result property="cdate" column="cdate" />
+	</resultMap>
+
+
+
+</mapper>
+

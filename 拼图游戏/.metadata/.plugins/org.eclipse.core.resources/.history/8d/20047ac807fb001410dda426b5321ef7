@@ -1,0 +1,116 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class Compete {
+	public static void main(String args[]) {
+		new Animal();
+		GuiTuSaiPao Wugui=new GuiTuSaiPao("乌龟"); 
+		GuiTuSaiPao Tuzi=new GuiTuSaiPao("兔子");  
+		Thread thread=new Thread(Wugui); 
+		Thread thread2=new Thread(Tuzi);  //启动线程  
+		thread.start();  
+		thread2.start();
+	}
+}
+
+class Animal extends JFrame implements ActionListener {
+	JPanel p1, p2;
+	JLabel tuzi, wugui;
+	JButton bStart, bStop, bContinue;
+	Timer time1, time2;
+
+
+	Animal() {
+		p1 = new JPanel();
+		p2 = new JPanel();
+		time1 = new Timer(150, this);
+		time2 = new Timer(100, this);
+		tuzi = new JLabel(new ImageIcon("\\tuizi.jpg"));
+		wugui = new JLabel(new ImageIcon("\\wugui.jpg"));
+		bStart = new JButton("开始");
+		bStop = new JButton("暂停");
+		bContinue = new JButton("继续");
+		bStart.addActionListener(this);
+		bStop.addActionListener(this);
+		bContinue.addActionListener(this);
+		this.add(p1, BorderLayout.NORTH);
+		this.add(p2, BorderLayout.CENTER);
+		p1.add(bStart);
+		p1.add(bStop);
+		p1.add(bContinue);
+		p2.add(tuzi);
+		p2.add(wugui);
+		setSize(500, 500);
+		validate();
+		setVisible(true);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+	
+class GuiTuSaiPao implements Runnable {
+		private String name; 
+		private int length=0;  
+		public GuiTuSaiPao(String name)
+		{ 
+			this.name=name;
+			}
+		public void run(){  
+			while(true){   
+				//每次停500毫秒  
+				try {    
+					Thread.sleep(500);   
+				}
+				catch (InterruptedException e) {
+					e.printStackTrace();   
+				}
+			  //向前跑十米   
+				length+=10;  
+				System.out.println(name+"已跑了"+length+"米.");  //到达终点   
+				if(length>=100){   
+					System.out.println(name+",已经到达终点!");    //结束赛跑   
+				}
+				break;  
+				} 
+		}
+}
+	}
+	public void actionPerformed(ActionEvent e) {
+		int y1 = 500;
+		if (e.getSource() == time1) {
+
+			int x = tuzi.getBounds().x;
+			int y2 = tuzi.getBounds().y;
+			y2 = y2 + 2;
+			tuzi.setLocation(x, y2);
+			
+		} else if (e.getSource() == bStart) {
+			time1.start();
+		} else if (e.getSource() == bStop) {
+			time1.stop();
+		} else if (e.getSource() == bContinue) {
+			time1.restart();
+		}
+		if (e.getSource() == time2) {
+			int x = wugui.getBounds().x;
+			int y3 = wugui.getBounds().y;
+			y3 = y3 + 2;
+			wugui.setLocation(x, y3);
+			
+		} else if (e.getSource() == bStart) {
+			time2.start();
+		} else if (e.getSource() == bStop) {
+			time2.stop();
+		} else if (e.getSource() == bContinue) {
+			time2.restart();
+		}
+
+		
+	}
+}
+		
+		
+	
+

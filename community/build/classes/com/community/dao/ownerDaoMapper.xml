@@ -1,0 +1,105 @@
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.dao.ownerDaoMapper">
+
+
+	<update id="updateownerInfo" parameterType="com.community.entity.owner">
+
+		update owner set
+		owner_name=#{owner_name},
+		owner_sex=#{owner_sex},
+		owner_idcard=#{owner_idcard},
+		owner_phone=#{owner_phone},
+		owner_workstation=#{owner_workstation},
+		houseid=#{houseid},
+		floorid=#{floorid}
+		where
+		id=#{id}
+	</update>
+
+
+
+	<delete id="delownerInfo" parameterType="int">
+		delete from owner
+		where
+		id=#{ownerid}
+	</delete>
+
+
+
+	<insert id="saveownerInfo" parameterType="com.community.entity.owner">
+
+		insert into
+		owner(owner_name,owner_sex,owner_idcard,owner_phone,owner_workstation,houseid,floorid)
+		values(#{owner_name},#{owner_sex},#{owner_idcard},#{owner_phone},#{owner_workstation},#{houseid},#{floorid})
+	</insert>
+
+
+
+	<select id="getownerCount" resultType="int">
+		select count(*) from
+		owner;
+	</select>
+
+
+
+	<select id="findownerWithPage" resultMap="ownerMapper">
+
+		SELECT
+		owner.id as onwerId,
+		owner.owner_name,
+		owner.owner_sex,
+		owner.owner_idcard,
+		owner.owner_phone,
+		owner.owner_workstation,
+		owner.houseid,
+		house.floorid
+		FROM
+		owner
+		left Join house ON house.id = owner.floorid
+
+
+		limit #{page},#{rows}
+	</select>
+
+
+
+
+	<select id="findownerById" parameterType="int" resultMap="ownerMapper">
+		SELECT
+		owner.id as onwerId,
+		owner.owner_name,
+		owner.owner_sex,
+		owner.owner_idcard,
+		owner.owner_phone,
+		owner.owner_workstation,
+		owner.houseid,
+		house.floorid
+		FROM
+		owner
+		left Join house ON house.id =
+		owner.floorid
+		where owner.id=#{id}
+	</select>
+
+
+
+	<resultMap type="com.community.entity.owner" id="ownerMapper">
+
+		<id property="id" column="onwerId" />
+		<result property="owner_name" column="owner_name" />
+		<result property="owner_sex" column="owner_sex" />
+		<result property="owner_idcard" column="owner_idcard" />
+		<result property="owner_phone" column="owner_phone" />
+		<result property="owner_workstation" column="owner_workstation" />
+		<result property="houseid" column="houseid" />
+		<result property="floorid" column="floorid" />
+		
+
+	</resultMap>
+
+
+</mapper>
+

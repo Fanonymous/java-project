@@ -1,0 +1,15 @@
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.dao.payCostDaoMapper">
+
+
+<insert id="savepayCostInfo" parameterType="com.community.entity.payCost">
+		insert into
+		payCost(houseid,totalcost,rname,cdate)
+		values(#{houseid},#{totalcost},#{rname},#{cdate})
+	</insert>
+	
+	
+	</mapper>

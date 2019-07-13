@@ -1,0 +1,106 @@
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.dao.houseDaoMapper">
+
+
+	<update id="updatehouseInfo" parameterType="com.community.entity.house">
+
+		update house set
+		houseid=#{houseid},
+		floorid=#{floorid},
+		shape=#{shape},
+		area=#{area},
+		ownername=#{ownername},
+		people=#{people},
+		ownerphone=#{ownerphone},
+		mdate=#{mdate}
+		where
+		id=#{id}
+	</update>
+
+
+
+	<delete id="delhouseInfo" parameterType="int">
+		delete from house
+		where
+		id=#{id}
+	</delete>
+
+
+
+	<insert id="savehouseInfo" parameterType="com.community.entity.house">
+
+		insert into
+		house(houseid,floorid,shape,area,ownername,people,ownerphone,mdate)
+		values(#{houseid},#{floorid},#{shape},#{area},#{ownername},#{people},#{ownerphone},#{mdate})
+	</insert>
+
+
+
+	<select id="gethouseCount" resultType="int">
+		select count(*) from
+		house;
+	</select>
+
+
+
+	<select id="findhouseWithPage" resultMap="houseMapper">
+
+		SELECT
+		house.id,
+		house.houseid,
+		house.floorid,
+		house.shape,
+		house.area,
+		house.ownername,
+		house.people,
+		house.ownerphone,
+		house.mdate
+		FROM
+		house
+
+		limit
+		#{page},#{rows}
+	</select>
+
+
+
+
+	<select id="findhouseById" parameterType="int" resultMap="houseMapper">
+		SELECT
+		house.id,
+		house.houseid,
+		house.floorid,
+		house.shape,
+		house.area,
+		house.ownername,
+		house.people,
+		house.ownerphone,
+		house.mdate
+		FROM
+		house
+		where house.id=#{id}
+	</select>
+
+
+
+	<resultMap type="com.community.entity.house" id="houseMapper">
+
+		<id property="id" column="id" />
+		<result property="houseid" column="houseid" />
+		<result property="floorid" column="floorid" />
+		<result property="shape" column="shape" />
+		<result property="area" column="area" />
+		<result property="ownername" column="ownername" />
+		<result property="people" column="people" />
+		<result property="ownerphone" column="ownerphone" />
+		<result property="mdate" column="mdate" />
+
+
+	</resultMap>
+
+
+</mapper>
+

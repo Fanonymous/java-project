@@ -1,0 +1,88 @@
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 该配置文件主要是用来配置sql语句，在mybatis框架中它主要是将sql配置到配置文件中的，和java代码分离，便于项目代码的维护。 -->
+<mapper namespace="com.community.dao.adminDaoMapper">
+
+	<update id="updateadminInfo">
+		update admin
+
+		<set>
+			<if test="admin_number !=null and admin_number !=''">
+				admin_number=#{admin_number},
+			</if>
+			<if test="admin_password !=null and admin_password !=''">
+				admin_password=#{admin_password}
+			</if>
+			
+		</set>
+		where admin_number=#{admin_number}
+	</update>
+	
+
+	<delete id="delUserInfo" parameterType="int">
+		delete from tb_users
+		where id=#{userId}
+
+	</delete>
+
+	<insert id="saveadminInfo">
+		insert into admin
+		(admin_number,admin_password,admin_name,admin_phone)
+		values(#{admin_number},#{admin_password},#{admin_name},#{admin_phone})
+	</insert>
+
+	<select id="findadminAllInfo" resultMap="adminResultMap">
+
+		SELECT
+		admin.id,
+		admin.admin_number,
+		admin.admin_password,
+		admin.admin_name,
+		admin.admin_phone
+		FROM
+		admin
+
+		<where>
+			<choose>
+
+				<when test="admin_number !=null and admin_number!=''">
+					and admin_number like '%${admin_number}%'
+
+				</when>
+				<when test="admin_password !=null and admin_password!=''">
+					and admin_password=#{admin_password}
+
+				</when>
+				<when test="admin_name !=null and admin_name!=''">
+					and admin_name=#{admin_name}
+
+				</when>
+			</choose>
+		</where>
+
+
+		<!-- limit #{page},#{rows} -->
+		
+		
+		
+
+	</select>
+	<select id="login" resultMap="adminResultMap">
+
+		select * from admin where
+		admin_number=#{admin_number} and admin_password=#{admin_password}
+	</select>
+
+	<resultMap type="com.community.entity.admin" id="adminResultMap">
+		<id property="id" column="id" />
+		<result property="admin_number" column="admin_number" />
+		<result property="admin_password" column="admin_password" />
+		<result property="admin_name" column="admin_name" />
+		<result property="admin_phone" column="admin_phone" />
+	</resultMap>
+
+</mapper>
+

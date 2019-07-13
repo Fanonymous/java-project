@@ -1,0 +1,30 @@
+
+public class Button extends Button{
+
+	int value;
+	public Button(int value){
+		super(""+value);
+		this.value=value;
+		
+		this.setFont(new Font("",Font.BOLD,34));
+		
+		
+	}
+	public Button(){
+		super("");
+		this.value=0;
+		
+		this.setFont(new Font("",Font.BOLD,34));
+		this.setSize(value, value);
+		
+	}
+	public int getValue() {
+		return value;
+	}
+	public void setValue(int value) {
+		this.value = value;
+	}
+	
+	
+	
+}
